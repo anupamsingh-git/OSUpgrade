@@ -1,0 +1,66 @@
+===============OS-Upgrade==========
+Note
+#####check for SRM ######
+example-->
+[root@rpc19021 ~]# nslookup rpc14447
+Server:         149.25.24.231
+Address:        149.25.24.231#53
+
+rpc14447.corp.ncr.com   canonical name = rpc14447-srm.corp.ncr.com.
+Name:   rpc14447-srm.corp.ncr.com
+Address: 149.26.224.166
+
+#####Important Take Snapshot from Vcenter First *******
+grubby --info=ALL | grep ^kernel
+uname -a ; date ; uptime
+cat /etc/redhat-release
+cat /etc/os-release
+#check nodejs
+rpm -qa | grep nodejs
+cp /etc/fstab /etc/fstab_bkp_03032025
+cat /etc/fstab
+vi /etc/fstab
+cat /etc/locale.conf
+yum repolist
+
+<hg230062@ncrvoyix.com CAN10dew 	20376865>
+
+uln_register
+yum repolist
+yum update -y
+uname -r
+yum install kernel-uek
+##Before leapp register leapp on ULN ***
+yum install -y leapp --enablerepo=ol7_leapp,ol7_latest
+reboot
+
+grep "pam_tally" /etc/pam.d/* | grep -v ":#"
+vi /etc/pam.d/password-auth
+grep "pam_tally" /etc/pam.d/*
+vi /etc/pam.d/system-auth
+leapp answer --section remove_pam_pkcs11_module_check.confirm=True
+rmmod floppy
+rmmod pata_acpi
+leapp preupgrade --oraclelinux
+cat /var/log/leapp/leapp-report.txt
+leapp answer --section remove_pam_pkcs11_module_check.confirm=True
+leapp upgrade --oraclelinux
+reboot
+
+history	
+uln_register
+				Creds for ULN <hg230062@ncrvoyix.com CAN10dew 	20376865>
+cat /etc/oracle-release
+uname -r
+grubby --default-kernel
+yum install -y yum-rhn-plugin rhnlib
+yum install -y uptrack
+uptrack-upgrade -n
+uptrack-upgrade -y
+ls -l /usr/bin/python*
+python3 --version
+update-alternatives --config python
+alternatives --set python /usr/bin/python3
+vi /etc/fstab
+reboot
+cat /etc/os-release ; date ; uptime
