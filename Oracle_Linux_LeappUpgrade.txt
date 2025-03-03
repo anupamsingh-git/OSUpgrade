@@ -62,5 +62,10 @@ python3 --version
 update-alternatives --config python
 alternatives --set python /usr/bin/python3
 vi /etc/fstab
+
+##remove rpm packages of OS-7######
+rpm -qa | grep -e '\.el[67]' | grep -vE '^(gpg-pubkey|libmodulemd|katello-ca-consumer)' | sort
+yum remove kernel-workaround $(rpm -qa | grep \.el7 | grep -vE 'gpg-pubkey|libmodulemd|katello-ca-consumer')
+
 reboot
 cat /etc/os-release ; date ; uptime
